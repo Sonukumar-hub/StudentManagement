@@ -22,7 +22,6 @@ const studentSchema = new mongoose.Schema(
       type: Number,
       required: true,
       min: 0,
-      max: 100,
     },
   },
   {
