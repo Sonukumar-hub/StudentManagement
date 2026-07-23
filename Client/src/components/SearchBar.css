@@ -1,0 +1,18 @@
+.search-container {
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.search-container input:focus {
+    border-color: royalblue;
+}
