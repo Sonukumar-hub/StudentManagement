@@ -20,8 +20,7 @@ app.get("/", (req, res) => {
   res.send("Student Management API");
 });
 
-const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server Running on Port ${PORT}`);
+app.listen(3000, () => {
+  console.log(`Server Running on Port ${3000}`);
 });

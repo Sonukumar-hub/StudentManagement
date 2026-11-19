@@ -1,102 +1,42 @@
-import { useState, useEffect } from "react";
-import API from "./services/api";
-import StudentForm from "./components/StudentForm";
-import StudentList from "./components/StudentList";
-import SearchBar from "./components/SearchBar";
+import React, { useState } from 'react'
+import AddStudent from './components/AddStudent'
+import ViewStudent from './components/ViewStudent'
+import TotalSize from './components/TotalSize'
+import SearchStudent from './components/SearchStudent'
 
-function App() {
+const App = () => {
+  const [addStudent, setAddStudent] = useState({
+    name: "",
+    rollNo: "",
+    department: "",
+    marks: ""
+  });
   const [students, setStudents] = useState([]);
-  const [editStudent, setEditStudent] = useState(null);
-  const [search, setSearch] = useState("");
-
-  // Fetch Students
-  const fetchStudents = async () => {
-    try {
-      const res = await API.get("/students");
-      setStudents(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchStudents();
-  }, []);
-
-  // Add Student
-  const addStudent = async (student) => {
-    try {
-      const res = await API.post("/students", student);
-
-      setStudents((prev) => [...prev, res.data]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // Delete Student
-  const deleteStudent = async (id) => {
-    try {
-      await API.delete(`/students/${id}`);
-
-      setStudents((prev) =>
-        prev.filter((student) => student._id !== id)
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // Select Student for Editing
-  const handleEdit = (student) => {
-    setEditStudent(student);
-  };
-
-  // Update Student
-  const updateStudent = async (student) => {
-    try {
-      const res = await API.put(
-        `/students/${student._id}`,
-        student
-      );
-
-      setStudents((prev) =>
-        prev.map((s) =>
-          s._id === student._id ? res.data : s
-        )
-      );
-
-      setEditStudent(null);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // Search Student
-  const filteredStudents = students.filter((student) =>
-    student.name.toLowerCase().includes(search.toLowerCase())
-  );
 
   return (
-    <div>
-      <StudentForm
-        addStudent={addStudent}
-        editStudent={editStudent}
-        updateStudent={updateStudent}
-      />
+    <div className="app-container">
+      <header className="app-header">
+        <span className="header-badge">Admin Dashboard</span>
+        <h1 className="app-title">Student Management System</h1>
+        <p className="app-subtitle">
+          Manage student records, search profiles, and monitor admissions effortlessly.
+        </p>
+      </header>
 
-      <SearchBar
-        search={search}
-        setSearch={setSearch}
-      />
+      <section className="dashboard-top-grid">
+        <TotalSize />
+        <SearchStudent />
+      </section>
 
-      <StudentList
-        students={filteredStudents}
-        deleteStudent={deleteStudent}
-        handleEdit={handleEdit}
-      />
+      <main className="dashboard-main-grid">
+        <AddStudent
+          addStudent={addStudent}
+          setAddStudent={setAddStudent}
+        />
+        <ViewStudent students={students} setStudents={setStudents} />
+      </main>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
